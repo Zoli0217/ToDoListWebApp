@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<TeendokDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("TeendooDbKapcsolat")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("TeendoDbKapcsolat")));
 
 var app = builder.Build();
 

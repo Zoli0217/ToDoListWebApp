@@ -11,7 +11,7 @@ using ToDoListWebApp.Data;
 namespace ToDoListWebApp.Migrations
 {
     [DbContext(typeof(TeendokDbContext))]
-    [Migration("20260921071951_InitialDbCreate")]
+    [Migration("20260924085816_InitialDbCreate")]
     partial class InitialDbCreate
     {
         /// <inheritdoc />

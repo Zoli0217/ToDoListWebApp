@@ -4,7 +4,59 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Teendők listája</h1>
+<h2>Új teendő felvétele</h2>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="UjTeendo.Cim"></label>
+        <input asp-for="UjTeendo.Cim" class="form-control" />
+        <span asp-validation-for="UjTeendo.Cim" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UjTeendo.Hatarido"></label>
+        <input asp-for="UjTeendo.Hatarido" class="form-control" type="date" />
+        <span asp-validation-for="UjTeendo.Hatarido" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UjTeendo.Kesz"></label>
+        <input asp-for="UjTeendo.Kesz" class="form-control" type="checkbox" />
+    </div>
+    <button type="submit" class="btn btn-primary">Hozzáadás</button>
+</form>
+
+@if (TempData["Uzenet"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Uzenet"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Teendok[0].Cim)</th>
+            <th>@Html.DisplayNameFor(model => model.Teendok[0].Hatarido)</th>
+            <th>@Html.DisplayNameFor(model => model.Teendok[0].Kesz)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teendo in Model.Teendok)
+        {
+            var lejart = teendo.Hatarido < DateTime.Now && !teendo.Kesz;
+            <tr class="@((lejart) ? "table-danger" : "")">
+                <td>@teendo.Cim</td>
+                <td>@teendo.Hatarido</td>
+                <td><input asp-for="@teendo.Kesz"/></td>
+                <td>
+                    <form method="post" asp-page-handler="Kesz" asp-route-id="@teendo.Id">
+                       <button type="submit">@(teendo.Kesz ? "Nem kész" : "Kész")</button> 
+                    </form>
+
+                    <form method="post" asp-page-handler="Torles" asp-route-id="@teendo.Id">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a teendőt?')">Törlés</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
